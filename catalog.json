@@ -1,0 +1,112 @@
+{
+  "templates": [
+    {
+      "name": "Mutual Non-Disclosure Agreement",
+      "description": "A mutual NDA that allows both parties to share confidential information with reciprocal protection. Includes standard terms for defining, protecting, and returning confidential information, with provisions for required disclosures by law, term and termination, and governing law.",
+      "filename": "Mutual-NDA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/mutual-nda/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Cloud Service Agreement",
+      "description": "Standard Cloud Service Agreement (CSA) governing the provision of cloud services. Covers service levels, data protection, intellectual property rights, warranties, limitations of liability, and termination provisions for SaaS and cloud service providers.",
+      "filename": "CSA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/cloud-service-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Service Level Agreement",
+      "description": "Service Level Agreement (SLA) defining performance metrics, uptime guarantees, response times, and service credits for cloud and software services. Includes measurement methodologies, exclusions, and reporting requirements.",
+      "filename": "SLA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/service-level-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Data Processing Agreement",
+      "description": "Data Processing Agreement (DPA) addressing GDPR and data protection requirements. Covers data processor obligations, data security, breach notification, data subject rights, and subprocessor engagements for GDPR compliance.",
+      "filename": "DPA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/data-processing-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Professional Services Agreement",
+      "description": "Professional Services Agreement (PSA) for engaging consultants, contractors, or service providers. Defines scope of work, deliverables, payment terms, intellectual property ownership, warranties, and termination for professional services engagements.",
+      "filename": "PSA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/professional-services-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Design Partner Agreement",
+      "description": "Design Partner Agreement for early-stage product development partnerships. Establishes framework for customers to provide feedback on pre-release products, including confidentiality, feedback licenses, beta access terms, and consideration provisions.",
+      "filename": "Design-Partner-Agreement.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/design-partner-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Partnership Agreement",
+      "description": "Strategic Partnership Agreement for business collaborations. Defines joint objectives, resource contributions, governance structure, intellectual property ownership, revenue sharing, confidentiality, and termination for strategic business partnerships.",
+      "filename": "Partnership-Agreement.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/partnership-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Software License Agreement",
+      "description": "Standard Software License Agreement for software licensing. Covers grant of license, usage restrictions, intellectual property protection, warranty disclaimers, limitation of liability, support and updates, and termination rights for software vendors.",
+      "filename": "Software-License-Agreement.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/software-license-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Pilot Agreement",
+      "description": "Pilot Agreement for trial or proof-of-concept deployments. Establishes terms for conducting pilot programs including scope, duration, evaluation criteria, pricing, data use, confidentiality, and conversion to full agreement terms.",
+      "filename": "Pilot-Agreement.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/pilot-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "Business Associate Agreement",
+      "description": "Business Associate Agreement (BAA) for HIPAA compliance. Covers protected health information (PHI) handling, permitted uses, disclosures, security requirements, breach notification, and HIPAA regulatory compliance for healthcare-related services.",
+      "filename": "BAA.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/business-associate-agreement/1.0/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "AI Addendum",
+      "description": "AI Addendum addressing artificial intelligence and machine learning considerations. Covers AI usage rights, data processing for AI training, output ownership, limitations on AI-generated content, and compliance with AI regulations.",
+      "filename": "AI-Addendum.md",
+      "source": "Common Paper",
+      "version": "1.0",
+      "url": "https://commonpaper.com/standards/ai-addendum/1.0/",
+      "license": "CC BY 4.0"
+    }
+  ],
+  "metadata": {
+    "source": "Common Paper",
+    "source_url": "https://commonpaper.com/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "total_templates": 11,
+    "last_updated": "2025-03-05",
+    "description": "A collection of standard legal document templates from Common Paper, covering common business agreements for SaaS, professional services, data protection, partnerships, and more. All templates are licensed under CC BY 4.0 and free to use and modify."
+  }
+}
