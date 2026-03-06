@@ -33,6 +33,10 @@ When implementing AI chat features:
 3. **Integration**: API calls should go through backend/ FastAPI endpoints
 4. **Structured Outputs**: Use OpenAI Structured Outputs for populating form fields in legal documents
 
+## AI design
+
+When writing code to make calls to LLMs, use your Cerebras skill to use LiteLLM via OpenRouter to the openrouter/openai/gpt-oss-120b model with Cerebras as the inference provider. You should use Structured Outputs so that you can interpret the results and populate fields in the legal document.
+
 ## Technical Architecture
 
 ### Docker & Backend Structure
