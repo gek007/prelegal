@@ -41,7 +41,10 @@
       "Bash(taskkill:*)",
       "Bash(PORT=3001 npm run:*)",
       "Bash(PORT=3002 npm run:*)",
-      "Bash(PORT=3010 npm run:*)"
+      "Bash(PORT=3010 npm run:*)",
+      "mcp__atlassian__addCommentToJiraIssue",
+      "Bash(sed:*)",
+      "Bash(IMPLEMENTATION_SUMMARY.md:*)"
     ]
   }
 }

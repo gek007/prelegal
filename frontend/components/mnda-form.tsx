@@ -52,12 +52,12 @@ export function MNDAForm({ onSubmit, loading = false, onChange }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-sm">
-      <h1 className="text-3xl font-bold text-gray-900">Mutual NDA Generator</h1>
-      <p className="text-gray-600">Fill in the details below to generate a Mutual Non-Disclosure Agreement.</p>
+      <h1 className="text-3xl font-bold text-navy">Mutual NDA Generator</h1>
+      <p className="text-graytext">Fill in the details below to generate a Mutual Non-Disclosure Agreement.</p>
 
       {/* Disclosing Party */}
       <fieldset className="space-y-3">
-        <legend className="text-lg font-semibold text-gray-900">Disclosing Party</legend>
+        <legend className="text-lg font-semibold text-navy">Disclosing Party</legend>
         <div className="space-y-2">
           <Label htmlFor="disclosingPartyName">Name *</Label>
           <Input
@@ -82,7 +82,7 @@ export function MNDAForm({ onSubmit, loading = false, onChange }: Props) {
 
       {/* Receiving Party */}
       <fieldset className="space-y-3">
-        <legend className="text-lg font-semibold text-gray-900">Receiving Party</legend>
+        <legend className="text-lg font-semibold text-navy">Receiving Party</legend>
         <div className="space-y-2">
           <Label htmlFor="receivingPartyName">Name *</Label>
           <Input
@@ -107,7 +107,7 @@ export function MNDAForm({ onSubmit, loading = false, onChange }: Props) {
 
       {/* Agreement Terms */}
       <fieldset className="space-y-3">
-        <legend className="text-lg font-semibold text-gray-900">Agreement Terms</legend>
+        <legend className="text-lg font-semibold text-navy">Agreement Terms</legend>
 
         <div className="space-y-2">
           <Label htmlFor="purpose">Purpose *</Label>
@@ -179,7 +179,7 @@ export function MNDAForm({ onSubmit, loading = false, onChange }: Props) {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full text-base"
+        className="w-full text-base bg-secondary hover:bg-secondary/90"
       >
         {loading ? 'Generating PDF...' : 'Download Mutual NDA'}
       </Button>

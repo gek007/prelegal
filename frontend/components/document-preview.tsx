@@ -24,17 +24,17 @@ export function DocumentPreview({ data }: DocumentPreviewProps) {
     // Replace placeholders in the actual template
     const filledTemplate = template
       .replace(/<span class="coverpage_link">Purpose<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${escapeHtml(data.purpose) || '[Purpose]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${escapeHtml(data.purpose) || '[Purpose]'}</span>`)
       .replace(/<span class="coverpage_link">Effective Date<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${data.effectiveDate ? formatDate(data.effectiveDate) : '[Effective Date]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${data.effectiveDate ? formatDate(data.effectiveDate) : '[Effective Date]'}</span>`)
       .replace(/<span class="coverpage_link">MNDA Term<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${escapeHtml(data.mndaTerm) || '[MNDA Term]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${escapeHtml(data.mndaTerm) || '[MNDA Term]'}</span>`)
       .replace(/<span class="coverpage_link">Term of Confidentiality<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${escapeHtml(data.termOfConfidentiality) || '[Term of Confidentiality]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${escapeHtml(data.termOfConfidentiality) || '[Term of Confidentiality]'}</span>`)
       .replace(/<span class="coverpage_link">Governing Law<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${escapeHtml(data.governingLaw) || '[Governing Law]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${escapeHtml(data.governingLaw) || '[Governing Law]'}</span>`)
       .replace(/<span class="coverpage_link">Jurisdiction<\/span>/g,
-        `<span style="background: yellow; font-weight: 600;">${escapeHtml(data.jurisdiction) || '[Jurisdiction]'}</span>`)
+        `<span style="background: #ecad0a; font-weight: 600;">${escapeHtml(data.jurisdiction) || '[Jurisdiction]'}</span>`)
 
     // Generate full document with cover page
     return generateFullDocument(data, filledTemplate)

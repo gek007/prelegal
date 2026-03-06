@@ -40,8 +40,8 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Mutual NDA Generator</h1>
-          <p className="text-gray-600 mt-2">Fill in the form and see your document update in real-time</p>
+          <h1 className="text-3xl font-bold text-navy">Mutual NDA Generator</h1>
+          <p className="text-graytext mt-2">Fill in the form and see your document update in real-time</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
