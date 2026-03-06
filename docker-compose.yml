@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  prelegal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./backend/templates:/app/backend/templates
+      - ./frontend/out:/app/frontend/out
+    environment:
+      - DATABASE_URL=sqlite:///./backend/prelegal.db
+    restart: unless-stopped

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Header } from '@/components/header'
 
 export const metadata: Metadata = {
-  title: 'PreLegal - Mutual NDA Generator',
-  description: 'Generate Mutual Non-Disclosure Agreements instantly',
+  title: 'PreLegal - Legal Document Generator',
+  description: 'AI-powered legal document generation',
 }
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }

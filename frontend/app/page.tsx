@@ -1,61 +1,31 @@
 'use client'
 
-import { useState } from 'react'
-import { MNDAForm, MNDAFormData } from '@/components/mnda-form'
-import { generateMNDApdf } from '@/lib/pdf-generator'
-import { DocumentPreview } from '@/components/document-preview'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState<MNDAFormData>({
-    disclosingPartyName: '',
-    disclosingPartyAddress: '',
-    receivingPartyName: '',
-    receivingPartyAddress: '',
-    purpose: '',
-    effectiveDate: '',
-    mndaTerm: '',
-    termOfConfidentiality: '',
-    governingLaw: '',
-    jurisdiction: '',
-  })
+  const router = useRouter()
 
-  const handleSubmit = async (data: MNDAFormData) => {
-    setLoading(true)
-    try {
-      await generateMNDApdf(data)
-    } catch (error) {
-      console.error('Failed to generate PDF:', error)
-      alert('Failed to generate PDF. Please try again.')
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('access_token')
+
+    if (token) {
+      // If authenticated, go to dashboard
+      router.push('/dashboard')
+    } else {
+      // If not authenticated, go to login
+      router.push('/login')
     }
-  }
+  }, [router])
 
-  const handleFormChange = (data: MNDAFormData) => {
-    setFormData(data)
-  }
-
+  // Show loading while redirecting
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-navy">Mutual NDA Generator</h1>
-          <p className="text-graytext mt-2">Fill in the form and see your document update in real-time</p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Form Section */}
-          <div>
-            <MNDAForm onSubmit={handleSubmit} loading={loading} onChange={handleFormChange} />
-          </div>
-
-          {/* Preview Section */}
-          <div className="lg:sticky lg:top-8 lg:self-start">
-            <DocumentPreview data={formData} />
-          </div>
-        </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
+        <p className="mt-4 text-graytext">Loading...</p>
       </div>
-    </main>
+    </div>
   )
 }

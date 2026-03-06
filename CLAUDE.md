@@ -6,14 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a SaaS product to allow users to draft legal agreements based on templates in the templates directory. The user can AI chat in order to establish what document they want and how to fill in the fields. The available documents are covered in `catalog.json` in the project root.
 
-**Current State:** Frontend-only prototype that supports Mutual NDA document generation with live preview (no AI chat yet).
+**Current State:** v1 foundation with backend authentication, Docker containerization, and fake login.
 
 **Vision:** AI-powered assistant to guide users through document selection and field completion.
 
-**Project Components:**
+## Project Components:
 - **Template repository**: 11 legal document templates from Common Paper (CC BY 4.0 licensed)
 - **Next.js frontend**: Web application for generating documents with live preview
-- **Planned backend**: Python FastAPI with uv, Docker containerized
+- **FastAPI backend**: Python backend with SQLite database, fake authentication
+- **Docker setup**: Multi-stage Docker build with startup scripts
 
 ## Development Process
 
@@ -33,115 +34,129 @@ When implementing AI chat features:
 3. **Integration**: API calls should go through backend/ FastAPI endpoints
 4. **Structured Outputs**: Use OpenAI Structured Outputs for populating form fields in legal documents
 
-## AI design
-
-When writing code to make calls to LLMs, use your Cerebras skill to use LiteLLM via OpenRouter to the openrouter/openai/gpt-oss-120b model with Cerebras as the inference provider. You should use Structured Outputs so that you can interpret the results and populate fields in the legal document.
-
 ## Technical Architecture
 
-## Technical design
-
-The entire project should be packaged into a Docker container.
-The backend should be in backend/ and be a uv project, using FastAPI.
-The frontend should be in frontend/.
-The database should use SQLite and be created from scratch each time the Docker container is brought up, allowing for a users table with sign up and sign in.
-Consider statically building the frontend and serving it via FastAPI, if that will work.
-
-### Docker & Backend Structure
-
-The entire project should be packaged into a Docker container:
-- **Backend**: `backend/` directory - Python FastAPI with uv package manager
-- **Frontend**: `frontend/` directory - Next.js application
-- **Serving**: Consider statically building the frontend and serving it via FastAPI
-
-**Backend endpoint**: http://localhost:8000
-
-### Startup Scripts
-
-Scripts for starting/stopping the application:
-
-**Windows:**
-- `scripts/start-windows.ps1`
-- `scripts/stop-windows.ps1`
-
-**Linux/macOS:**
-- `scripts/start.sh`
-- `scripts/stop.sh`
-
-### Template System
-
-Legal templates use a custom placeholder system with `<span class="coverpage_link">FieldName</span>` markers. For example:
-
-```markdown
-This agreement commences on the <span class="coverpage_link">Effective Date</span> and expires at the end of the <span class="coverpage_link">MNDA Term</span>.
+### Backend Structure (FastAPI + SQLite)
+```
+backend/
+├── main.py              # FastAPI app with auth endpoints
+├── database.py          # SQLite setup with User model
+├── auth.py              # Fake authentication logic
+├── templates/           # Legal document templates
+└── prelegal.db          # SQLite database (created on startup)
 ```
 
-The application replaces these placeholders with user input. Common placeholders include:
-- Purpose, Effective Date, MNDA Term, Term of Confidentiality
-- Governing Law, Jurisdiction
+**API Endpoints:**
+- `POST /api/login` - Fake login (accepts any email/password)
+- `GET /api/me` - Get current user info
+- `GET /api/templates/{filename}` - Serve legal templates
+- `GET /api/templates` - List all templates
+- `GET /api/health` - Health check
 
-### Frontend Architecture
+**Database:**
+- SQLite with single `users` table (id, email, password_hash, created_at)
+- Database created fresh on container startup
+- Fake auth creates users on-the-fly
 
-**App Structure (Next.js 15 App Router):**
+### Frontend Architecture (Next.js 15)
 ```
 frontend/
 ├── app/
-│   ├── page.tsx              # Main page with form + preview layout
-│   └── layout.tsx            # Root layout
+│   ├── page.tsx         # Root page (redirects to login/dashboard)
+│   ├── login/page.tsx   # Login page
+│   ├── dashboard/page.tsx # MNDA generator (protected)
+│   └── layout.tsx       # Root layout with Header
 ├── components/
-│   ├── mnda-form.tsx         # Form component with MNDAFormData interface
-│   ├── document-preview.tsx  # Live document preview
-│   └── ui/                   # Shadcn UI components (button, input, label, textarea)
-├── lib/
-│   ├── pdf-generator.ts      # PDF generation with html2pdf.js
-│   └── utils.ts              # Utility functions (cn for class merging)
-└── public/templates/         # Template files served at /templates/
+│   ├── header.tsx       # Navigation header with logout
+│   ├── mnda-form.tsx    # MNDA form component
+│   └── document-preview.tsx # Live preview
+└── lib/
+    ├── pdf-generator.ts # PDF generation
+    └── api.ts           # API client (fetch wrapper)
 ```
 
-**Data Flow:**
-1. User enters data in `MNDAForm` component
-2. Form state lifted to parent via `onChange` callback
-3. Parent passes form data to `DocumentPreview` component
-4. Preview fetches template from `/templates/` and replaces placeholders
-5. On submit, `generateMNDApdf()` generates cover page + filled template as PDF
+**Authentication Flow:**
+1. User visits `/` → redirects to `/login` if not authenticated
+2. User enters any email/password → POST to `/api/login`
+3. Backend accepts any credentials, returns fake JWT
+4. Frontend stores token in `localStorage`
+5. Redirect to `/dashboard` (MNDA generator)
+6. Header shows user email and logout button
 
-**Key Patterns:**
-- **Client-side only**: PDF generation uses dynamic import to avoid SSR issues (`const html2pdf = (await import('html2pdf.js')).default`)
-- **Live preview**: Document preview updates in real-time as user types
-- **TypeScript interfaces**: `MNDAFormData` interface defines form structure
-- **Shadcn UI**: Minimal UI components with `className` prop support
-- **Tailwind CSS**: Utility-first styling with `cn()` helper for class merging
+**Environment Variables:**
+- `NEXT_PUBLIC_API_URL` - Backend API URL (default: `http://localhost:8000`)
 
-### Catalog Metadata
+### Docker & Startup Scripts
 
-`catalog.json` contains metadata for all 11 templates:
-- Template name, description, filename
-- Source (Common Paper), version, URL
-- License information (all CC BY 4.0)
+**Docker Setup:**
+- Multi-stage Dockerfile (builds frontend, runs backend)
+- Single container serves both frontend and backend
+- Hot reload enabled in development mode
 
-**Available templates:** Mutual NDA, CSA, SLA, DPA, PSA, Design Partner Agreement, Partnership Agreement, Software License Agreement, Pilot Agreement, BAA, AI Addendum.
+**Startup Scripts:**
+- `scripts/start-windows.ps1` - Windows start script
+- `scripts/stop-windows.ps1` - Windows stop script
+- `scripts/start-linux.sh` - Linux/macOS start script
+- `scripts/stop-linux.sh` - Linux/macOS stop script
+
+**To start the application:**
+```bash
+# Windows
+.\scripts\start-windows.ps1
+
+# Linux/macOS
+./scripts/start-linux.sh
+```
+
+**To stop the application:**
+```bash
+# Windows
+.\scripts\stop-windows.ps1
+
+# Linux/macOS
+./scripts/stop-linux.sh
+```
+
+### Template System
+
+Legal templates use a custom placeholder system with `<span class="coverpage_link">FieldName</span>` markers.
+
+**Templates Location:**
+- Source: `templates/` directory in project root
+- Backend serves from: `backend/templates/`
+- Accessed via: `GET /api/templates/{filename}`
+
+**Available Templates:** Mutual NDA, CSA, SLA, DPA, PSA, Design Partner Agreement, Partnership Agreement, Software License Agreement, Pilot Agreement, BAA, AI Addendum.
 
 ## Development Commands
 
-### Frontend (Next.js)
+### Docker (Recommended)
 ```bash
-cd frontend
-npm install              # Install dependencies
-npm run dev             # Start development server (http://localhost:3000)
-npm run build           # Build for production
-npm run start           # Start production server
-npm run lint            # Run ESLint
+# Start the application
+docker-compose up --build
+
+# View logs
+docker-compose logs -f
+
+# Stop the application
+docker-compose down
 ```
 
-### Template Management
-Templates are stored in `templates/` directory and copied to `frontend/public/templates/` for serving. When adding new templates:
-1. Add template file to `templates/` directory
-2. Copy to `frontend/public/templates/`
-3. Update `catalog.json` with template metadata
+### Backend Only (Development)
+```bash
+cd backend
+uvicorn main:app --reload --port 8000
+```
+
+### Frontend Only (Development)
+```bash
+cd frontend
+npm install
+npm run dev    # http://localhost:3000
+npm run build  # Build for production
+```
 
 ## Color Scheme
-
-Use these colors for UI elements:
 
 - **Accent Yellow**: `#ecad0a` - Highlights, notifications
 - **Blue Primary**: `#209dd7` - Primary buttons, links
@@ -149,23 +164,11 @@ Use these colors for UI elements:
 - **Dark Navy**: `#032147` - Headings, primary text
 - **Gray Text**: `#888888` - Secondary text, placeholders
 
-## Adding New Document Types
-
-To add a generator for a new document type (e.g., CSA):
-
-1. **Create form component**: `components/csa-form.tsx` with `CSAFormData` interface
-2. **Update PDF generator**: Add `generateCSApdf()` function in `lib/pdf-generator.ts`
-3. **Copy template**: `cp templates/CSA.md frontend/public/templates/`
-4. **Create page**: `app/csa/page.tsx` with form + preview layout
-5. **Identify placeholders**: Search template for `<span class="coverpage_link">` patterns
-
 ## Important Notes
 
-- **Client-side PDF**: html2pdf.js must be dynamically imported to avoid "self is not defined" errors during SSR
-- **Template placeholders**: Always use regex with global flag for replacement: `.replace(/pattern/g, replacement)`
-- **Date formatting**: Use `toLocaleDateString()` for consistent date formatting
-- **Cover page generation**: PDF generator creates cover page with party info, terms summary, and signature blocks
-- **Markdown to HTML**: Simple regex-based conversion in `convertMarkdownToHTML()` function
-- **Form validation**: Uses HTML5 `required` attribute for basic validation
-- **Responsive layout**: Uses `lg:grid-cols-2` for side-by-side on desktop, stacks on mobile
-- **Color usage**: Apply defined color scheme consistently across components
+- **Fake Authentication**: Login accepts any email/password combination (no real validation)
+- **SQLite Database**: Created fresh on each container startup (data not persisted)
+- **Template Serving**: Templates served by backend API, not from frontend public directory
+- **Client-side PDF**: html2pdf.js must be dynamically imported to avoid SSR issues
+- **Protected Routes**: `/dashboard` requires authentication (checks localStorage)
+- **CORS**: Backend allows all origins for development (restrict in production)

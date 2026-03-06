@@ -32,6 +32,7 @@ ENV/
 *.db
 *.sqlite
 *.sqlite3
+backend/prelegal.db
 
 # Testing
 .pytest_cache/

@@ -11,8 +11,9 @@ export function DocumentPreview({ data }: DocumentPreviewProps) {
   const [template, setTemplate] = useState<string>('')
 
   useEffect(() => {
-    // Load the actual template
-    fetch('/templates/Mutual-NDA.md')
+    // Load the actual template from backend API
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    fetch(`${apiUrl}/api/templates/Mutual-NDA.md`)
       .then(res => res.text())
       .then(text => setTemplate(text))
       .catch(err => console.error('Failed to load template:', err))
