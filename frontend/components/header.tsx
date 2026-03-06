@@ -39,7 +39,7 @@ export function Header() {
             {email && (
               <>
                 <span className="text-sm text-gray-600">{email}</span>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
+                <Button variant="outline" className="h-8 px-3 text-xs" onClick={handleLogout}>
                   Logout
                 </Button>
               </>

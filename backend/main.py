@@ -7,8 +7,11 @@ from sqlalchemy.orm import Session
 from typing import Optional
 import os
 
-from .database import get_db, init_db
-from .auth import fake_authenticate, create_access_token
+# Get the backend directory absolute path
+BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+
+from database import get_db, init_db
+from auth import fake_authenticate, create_access_token
 
 # Initialize database
 init_db()
@@ -57,7 +60,7 @@ async def get_current_user():
 @app.get("/api/templates/{filename}", response_class=PlainTextResponse)
 async def get_template(filename: str):
     """Serve legal document templates."""
-    template_path = f"./backend/templates/{filename}"
+    template_path = os.path.join(BACKEND_DIR, "templates", filename)
 
     if not os.path.exists(template_path):
         raise HTTPException(status_code=404, detail="Template not found")
@@ -70,7 +73,7 @@ async def get_template(filename: str):
 @app.get("/api/templates")
 async def list_templates():
     """List all available templates."""
-    templates_dir = "./backend/templates"
+    templates_dir = os.path.join(BACKEND_DIR, "templates")
     if not os.path.exists(templates_dir):
         return {"templates": []}
 

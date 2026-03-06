@@ -47,7 +47,11 @@
       "Bash(IMPLEMENTATION_SUMMARY.md:*)",
       "Bash(chmod +x:*)",
       "mcp__ide__executeCode",
-      "Bash(CLAUDE.md:*)"
+      "Bash(CLAUDE.md:*)",
+      "Bash(netstat:*)",
+      "Bash(start:*)",
+      "Bash(timeout 5 backend/.venv/Scripts/python.exe:*)",
+      "Bash(.venv/Scripts/python.exe:*)"
     ]
   }
 }
