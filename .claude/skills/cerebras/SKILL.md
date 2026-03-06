@@ -29,3 +29,11 @@ EXTRA_BODY = {"provider": {"order": ["cerebras"]}}
 response = completion(model=MODEL, messages=messages, reasoning_effort="low",
 extra_body=EXTRA_BODY)
 result = response.choices[0].message.content
+
+## Code ta call via Cerebras for a Structured Outputs response  
+
+response = completion(model=MODEL, messages=messages, response_format=MyBaseModelSubclass,
+reasoning_effort="low", extra_body=EXTRA_BODY)
+
+result = response.choices[0].message.content
+result_as_object = MyBaseModelSubclass.model_validate_json(result)
