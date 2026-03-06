@@ -22,9 +22,10 @@ export interface MNDAFormData {
 interface Props {
   onSubmit: (data: MNDAFormData) => void
   loading?: boolean
+  onChange?: (data: MNDAFormData) => void
 }
 
-export function MNDAForm({ onSubmit, loading = false }: Props) {
+export function MNDAForm({ onSubmit, loading = false, onChange }: Props) {
   const [formData, setFormData] = useState<MNDAFormData>({
     disclosingPartyName: '',
     disclosingPartyAddress: '',
@@ -44,7 +45,9 @@ export function MNDAForm({ onSubmit, loading = false }: Props) {
   }
 
   const handleChange = (field: keyof MNDAFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    const newData = { ...formData, [field]: value }
+    setFormData(newData)
+    onChange?.(newData)
   }
 
   return (
