@@ -45,7 +45,9 @@
       "mcp__atlassian__addCommentToJiraIssue",
       "Bash(sed:*)",
       "Bash(IMPLEMENTATION_SUMMARY.md:*)",
-      "Bash(chmod +x:*)"
+      "Bash(chmod +x:*)",
+      "mcp__ide__executeCode",
+      "Bash(CLAUDE.md:*)"
     ]
   }
 }

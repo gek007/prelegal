@@ -172,3 +172,50 @@ npm run build  # Build for production
 - **Client-side PDF**: html2pdf.js must be dynamically imported to avoid SSR issues
 - **Protected Routes**: `/dashboard` requires authentication (checks localStorage)
 - **CORS**: Backend allows all origins for development (restrict in production)
+
+---
+
+## Recent Implementation (March 2026)
+
+**Jira Ticket:** PREL-4 - Build foundation v1 product
+
+**Implementation Summary:**
+- ✅ FastAPI backend with SQLite database and User model
+- ✅ Fake authentication system (accepts any credentials, creates users on-the-fly)
+- ✅ JWT token generation and session management
+- ✅ Login page at `/login` with email/password form
+- ✅ Protected dashboard at `/dashboard` (MNDA generator requires auth)
+- ✅ Header component with user email display and logout button
+- ✅ Multi-stage Dockerfile (builds frontend static files, serves via FastAPI)
+- ✅ Startup scripts for Windows (PowerShell) and Linux/macOS (bash)
+- ✅ Template serving via backend API (`/api/templates/*`)
+- ✅ Health check endpoint (`/api/health`)
+- ✅ Updated documentation (CLAUDE.md, README.md)
+
+**Files Changed:** 33 new files, 8 modified files, ~1,700 lines added
+
+**Key Architecture Decisions:**
+- Single container design (frontend built to static, served by FastAPI)
+- Minimal changes approach (fast implementation, maintainable structure)
+- Fake auth suitable for v1 foundation (easily upgradeable to real auth)
+- Hot reload support in development mode
+- Automated health checks in startup scripts
+
+**Usage:**
+```bash
+# Windows
+.\scripts\start-windows.ps1
+
+# Linux/macOS
+./scripts/start-linux.sh
+
+# Then visit http://localhost:8000
+```
+
+**Next Steps (Future Work):**
+- Real authentication with password validation
+- User registration flow
+- Document history tracking in database
+- AI chat integration (LiteLLM + OpenRouter + Cerebras)
+- Additional document types beyond MNDA
+- Production deployment configuration
