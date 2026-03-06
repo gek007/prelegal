@@ -39,6 +39,14 @@ When writing code to make calls to LLMs, use your Cerebras skill to use LiteLLM 
 
 ## Technical Architecture
 
+## Technical design
+
+The entire project should be packaged into a Docker container.
+The backend should be in backend/ and be a uv project, using FastAPI.
+The frontend should be in frontend/.
+The database should use SQLite and be created from scratch each time the Docker container is brought up, allowing for a users table with sign up and sign in.
+Consider statically building the frontend and serving it via FastAPI, if that will work.
+
 ### Docker & Backend Structure
 
 The entire project should be packaged into a Docker container:
